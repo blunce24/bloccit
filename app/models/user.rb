@@ -1,4 +1,13 @@
 class User < ActiveRecord::Base
+  before_save {
+    if name
+      arr = []
+      name.split(" ").each do |word|
+          arr << word.capitalize
+      end
+      self.name = arr.join(" ")
+    end
+  }
   #register inline callback after the before_save callback
   before_save { self.email = email.downcase if email.present? }
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
@@ -11,4 +20,5 @@ class User < ActiveRecord::Base
              uniqueness: { case_sensitive: false },
              length: { minimum: 3, maximum: 254 }
   has_secure_password
+
 end

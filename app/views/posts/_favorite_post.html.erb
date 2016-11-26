@@ -1,0 +1,26 @@
+<% posts.each do |post| %>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="media">
+        <br />
+      <% avatar_url = post.post.user.avatar_url(128) %>
+      <% if avatar_url %>
+        <div class="media-left">
+          <%= image_tag avatar_url, class: 'media-object' %>
+        </div>
+      <% end %>
+
+    <div class="media-body">
+        <h4 class="media-heading">
+          <%= render partial: 'votes/voter', locals: { post: post.post } %>
+          <%= link_to post.post.title, topic_post_path(post.post.topic, post) %>
+        </h4>
+        <small>
+          submitted <%= time_ago_in_words(post.created_at) %> ago by <%= post.post.user.name %> <br>
+          <%= post.post.comments.count %> Comments
+        </small>
+      </div>
+    </div>
+    </div>
+  </div>
+<% end %>
